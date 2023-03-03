@@ -1,1 +1,34 @@
+on:
+  [push]
+# test
+name: AzureCLISample
+jobs:
 
+  build:
+
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    # Login to the Container Registry
+    
+    - name: Azure Container Registry Login
+      uses: Azure/docker-login@v1
+      with:
+    # Container registry username
+        username: ${{ secrets.ACR_USERNAME }}
+    # Container registry password
+        password: ${{ secrets.ACR_Password }}
+    # Container registry server url
+        login-server:  ${{ secrets.ACR_LOGIN_SERVER }}
+    - name: Build & Push
+      run: |
+        docker build -t testing_app:latest .
+        docker tag testing_app:latest  aharoacr01.azurecr.io/testing_app:latest
+        docker push aharoacr01.azurecr.io/testing_app
