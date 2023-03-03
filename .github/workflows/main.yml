@@ -16,7 +16,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
         
-    # Login to the Container Registry
+    # Login to the Container Registry - ready
     
     - name: Azure Container Registry Login
       uses: Azure/docker-login@v1
