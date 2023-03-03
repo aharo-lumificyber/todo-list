@@ -1,29 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-app
+  name: todo-app03
 spec:
   replicas: 2
   selector:
     matchLabels:
-      run: todo-app
+      run: todo-app03
   template:
     metadata:
       labels:
-        run: todo-app
+        run: todo-app03
     spec:
+      imagePullSecrets:
+        - name: acr-secret02
       containers:
-      - name: todo-app
-        image: aharoacr01.westus2.data.azurecr.io/testing_app:latest
+      - name: todo-app03
+        image: aharoacr01.azurecr.io/testing_app:latest
         ports:
           - containerPort: 80
         imagePullPolicy: Always
+      
         resources:
           limits:
             memory: 512Mi
             cpu: 200m
         securityContext:
           allowPrivilegeEscalation: false
-      imagePullSecrets:
-        - name: acr-secret01
+      
       
